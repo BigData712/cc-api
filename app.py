@@ -1,7 +1,7 @@
 import json
 import os
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, jsonify, Response
 import requests
 
 load_dotenv()
@@ -19,7 +19,7 @@ auth = (username, password)
 @app.route('/<path:url>')
 def process(url):
     res = requests.get(host_name + f"/{url}", auth=auth)
-    return json.loads(res.text)
+    return Response(res.text, mimetype='application/json')
 
 
 if __name__ == '__main__':
