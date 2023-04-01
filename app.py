@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_opensearch import FlaskOpenSearch
 
 app = Flask(__name__)
 
