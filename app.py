@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, Response
+from flask import Flask, Response, request
 from flask_cors import CORS, cross_origin
 import requests
 
@@ -20,7 +20,11 @@ auth = (username, password)
 @app.route('/<path:url>')
 @cross_origin()
 def process(url):
-    res = requests.get(host_name + f"/{url}", auth=auth)
+    args = request.query_string
+    formed_str = host_name + f"/{url}?{str(args, 'utf-8')}"
+    print(formed_str)
+
+    res = requests.get(formed_str, auth=auth)
     return Response(res.text, mimetype='application/json')
 
 
