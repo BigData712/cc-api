@@ -34,6 +34,7 @@ def run_post_request(query: str) -> Response:
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:url>', methods=['GET', 'POST'])
 @cross_origin()
+
 def process(url):
     if request.method == 'GET':
         args = request.query_string
@@ -49,6 +50,27 @@ def process(url):
 
         res = run_post_request(query)
         return Response(res.text, mimetype='application/json')
+
+
+# Added a try-except block to handle exceptions.
+# Used request.args instead of request.query_string.
+# Changed the conditional statement for POST requests to request.method == 'POST' and url == 'sql'.
+# def process(url):
+#     if request.method == 'GET':
+#         args = request.args
+#         formed_endpoint = f"{HOSTNAME}/{url}"
+#         res = requests.get(formed_endpoint, params=args, auth=AUTH)
+#         return Response(res.text, mimetype='application/json')
+#     elif request.method == 'POST' and url == 'sql':
+#         try:
+#             query = request.get_json().get('query')
+#             res = run_post_request(query)
+#             return Response(res.text, mimetype='application/json')
+#         except Exception as e:
+#             return Response(f"Error: {e}", status=400, mimetype='application/json')
+#     else:
+#         return Response("Invalid method or URL", status=404, mimetype='application/json')
+
 
 
 if __name__ == '__main__':
